@@ -1,0 +1,32 @@
+moneybird:
+  administrationId: "123456789012345678"
+  userId: "123456789012345678"
+  token: "abcdefghijklmnopqrstuvwxyz"
+presets:
+  coaching:
+    description: Coaching
+    project: "123456789012345678"
+    contact: "123456789012345678"
+    billable: true
+  administration:
+    description: Administration
+    project: "123456789012345678"
+    contact: "123456789012345678"
+    billable: false
+presetGroups:
+  regular:
+    - coaching
+    - preset: coaching # variation of coaching preset
+      pauseDuration: 0
+      endOffset: 165
+    - administration
+defaults:
+  preset: coaching
+  startOffset: 0
+  pauseDuration: 30
+  endOffset: 60
+summary:
+  edit: true
+  menu: false
+  remove: true
+  send: true
