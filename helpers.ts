@@ -1,26 +1,38 @@
 import { table } from 'table';
 import { add, addMinutes, format, formatDuration, intervalToDuration, parse, subMinutes } from "date-fns";
 import { dateTimeFormat, referenceDate } from "./const";
-import { TimeEntry } from "./model";
+import { Preset, TimeEntry } from "./model";
 
-export const createSummary = (timeEntries: TimeEntry[]) => {  
+export const createSummary = (timeEntries: TimeEntry[], presets: {[key: string]: Preset}) => {  
     let totalEnd = new Date(0);
+    let totalEndBillable = new Date(0);
  
     const tableData = [
-        ['ID', 'Preset', 'Start', 'Pause', 'End', 'Duration'],
+        ['ID', 'Billable', 'Preset', 'Start', 'Pause', 'End', 'Duration'],
         ...timeEntries.map((timeEntry, index) => {
             const duration = getDuration(timeEntry.start, timeEntry.end, timeEntry.pausedDuration);
+            const billable = presets?.[timeEntry.preset]?.billable;
             totalEnd = add(totalEnd, duration);
+
+            if (billable) {
+                totalEndBillable = add(totalEndBillable, duration);
+            }
+
             return [
                 index+1,
+                billable ? 'Yes' : 'No',
                 ...Object.values(timeEntry),
                 formatDuration(duration),
             ];
         }),
-        ['', '', '', '', '', formatDuration(intervalToDuration({
+        ['', '', '', '', '', '', `Total: ${formatDuration(intervalToDuration({
             start: new Date(0),
             end: totalEnd,
-        }))]
+        }))}`],
+        ['', '', '', '', '', '', `Billable: ${formatDuration(intervalToDuration({
+            start: new Date(0),
+            end: totalEndBillable,
+        }))}`]
     ];
 
     return table(tableData);

@@ -16,7 +16,7 @@ const main = async () => {
 
     while (!verified) {
         if (config.summary.menu && entries.length) {
-            console.log(createSummary(entries));
+            console.log(createSummary(entries, config.presets));
         }
         const navigationOption: NavigationOption = await navigation(entries.length > 0);
 
@@ -43,7 +43,6 @@ const main = async () => {
                                     ),
                                 },
                             );
-                            console.log('vv', value);
 
                             entries = [
                                 ...entries,
@@ -54,7 +53,7 @@ const main = async () => {
                     break;
             case 'Edit':
                 if (config.summary.edit) {
-                    console.log(createSummary(entries));
+                    console.log(createSummary(entries, config.presets));
                 }
                 const editEntryID = await enterTimeEntryID();
                 const editedEntry = await getTimeEntry(
@@ -66,7 +65,7 @@ const main = async () => {
                 break;
             case 'Remove':
                 if (config.summary.remove) {
-                    console.log(createSummary(entries));
+                    console.log(createSummary(entries, config.presets));
                 }
                 const removeEntryID = await enterTimeEntryID();
                 if (removeEntryID) {
@@ -74,11 +73,11 @@ const main = async () => {
                 }
                 break;
             case 'Summary':
-                console.log(createSummary(entries));
+                console.log(createSummary(entries, config.presets));
                 break;
             case 'Send':
                 if (config.summary.send) {
-                    console.log(createSummary(entries));
+                    console.log(createSummary(entries, config.presets));
                 }
                 verified = true;
                 break;
