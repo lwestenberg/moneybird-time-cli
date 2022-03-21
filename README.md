@@ -1,4 +1,5 @@
 # Moneybird Time CLI
+CLI that makes it easy to add Moneybird time entries
 
 ## Installation
 - Install Node and NPM
