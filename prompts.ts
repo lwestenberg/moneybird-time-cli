@@ -21,7 +21,7 @@ export const enterDateTime = async (type: 'start' | 'end', initial: string) => {
         type: 'input',
         name: 'value',
         initial,
-        message: chalk.blue(`Enter a ${type} date and time: `),
+        message: chalk.blue(`Enter the ${type} date and time: `),
     });
 
     return answer?.value
