@@ -11,6 +11,9 @@ Copy config.example.yaml to config.yaml
 ***General warning:***
 All administrationId, userId, project, contact values should be within double quotes.
 
+***rememberLastDate***
+Can be set to true when the last end date+time should be used as the start date+time for the next entry.
+
 ### Setup Moneybird details
 Inside the moneybird section, add the following:
 - administrationId: Login to your Moneybird administration and check the url, the part after moneybird.com/ is the administrationId.
@@ -37,6 +40,7 @@ You can configure defaults on 3 levels in the config:
 Defaults are:
 - preset: the identifier of the preset
 - startOffset: the offset in minutes from now of the start time
+- startTime: a fixed time that the entry should have, combined with the current date
 - pausedDuration: the pause duration in minutes
 - endOffset: the offset in minutes from now of the end time
 
