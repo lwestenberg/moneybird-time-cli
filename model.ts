@@ -14,6 +14,7 @@ export interface Config {
     presets: {[key: string]: Preset};
     presetGroups: {[key: string]: string[] | Defaults[]};
     defaults: Defaults;
+    rememberLastDate: boolean;
     summary: {
         edit: boolean;
         menu: boolean;
@@ -25,6 +26,7 @@ export interface Config {
 export interface Defaults {
     preset?: string;
     startOffset?: number;
+    startTime?: string;
     pausedDuration?: number;
     endOffset?: number;
 }

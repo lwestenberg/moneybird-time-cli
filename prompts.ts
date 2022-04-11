@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { formatDuration } from "date-fns";
+import { format, formatDuration } from "date-fns";
 import enquirer from 'enquirer';
 import { getDuration, getFormmattedDateTime } from "./helpers";
 import { Defaults, NavigationOption, Preset, TimeEntry } from "./model";
@@ -33,7 +33,9 @@ export const getTimeEntry = async (defaults: Defaults, presets: {[key: string]: 
     while (!verified) { 
         const preset = await selectFromList(Object.keys(presets), 'preset', timeEntry?.preset || defaults?.preset);
         const presetValue = Object.entries(presets).find(([key, _]) => key === preset)?.[1];
-        const start = await enterDateTime('start', timeEntry?.start || getFormmattedDateTime(presetValue?.defaults?.startOffset || defaults?.startOffset));
+        const startTime = `${format(new Date(), 'dd-MM-yyyy')} ${presetValue?.defaults?.startTime || defaults?.startTime}`;
+
+        const start = await enterDateTime('start', timeEntry?.start || getFormmattedDateTime(presetValue?.defaults?.startOffset || defaults?.startOffset, startTime));
         const pausedDuration =  await enterPausedDuration(timeEntry?.pausedDuration || presetValue?.defaults?.pausedDuration || defaults?.pausedDuration || 0);
         const end =  await enterDateTime('end', timeEntry?.end || getFormmattedDateTime(presetValue?.defaults?.endOffset || defaults?.endOffset, start));
         const timeEntryResult = {

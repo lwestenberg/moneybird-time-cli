@@ -17,14 +17,15 @@ presetGroups:
   regular:
     - coaching
     - preset: coaching # variation of coaching preset
-      pauseDuration: 0
+      pausedDuration: 0
       endOffset: 165
     - administration
 defaults:
   preset: coaching
   startOffset: 0
-  pauseDuration: 30
+  pausedDuration: 30
   endOffset: 60
+rememberLastDate: true
 summary:
   edit: true
   menu: false

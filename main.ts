@@ -12,6 +12,7 @@ const main = async () => {
     const config: Config = YAML.parse(file);
     console.log(chalk.bgBlue.white.bold('                    \n moneybird-time-cli \n                    \n'));
     let verified = false;
+    let lastEndDate: string = '';
     let entries: TimeEntry[] = [];
 
     while (!verified) {
@@ -22,27 +23,39 @@ const main = async () => {
 
         switch (navigationOption) {
             case 'Add from preset':
+                const addEntry = await getTimeEntry(config.defaults, config.presets, config.rememberLastDate && !!lastEndDate ? {start: lastEndDate} : {});
+                lastEndDate = addEntry.end;
                 entries = [
                     ...entries,
-                    await getTimeEntry(config.defaults, config.presets),
+                    addEntry,
                 ];
                 break;
             case 'Add from preset group':
                     const group =  await selectFromList(Object.keys(config.presetGroups), 'group');                    
                     const groupConfigValue = Object.entries(config.presetGroups).find(([key, _]) => key === group)?.[1];
-
                     if (groupConfigValue) {
                         for await (const groupValuePreset of groupConfigValue) {
+                            console.log('gvp', groupValuePreset);
+                            const presetsWithPresetOverrides = {
+                                ...config.presets,
+                                ...(typeof groupValuePreset !== 'string' && groupValuePreset.preset ? {
+                                    [groupValuePreset.preset]: {...config.presets[groupValuePreset.preset], defaults: groupValuePreset}
+                                } : {}),
+                            };
+                            console.log('pre', presetsWithPresetOverrides);
                             const value = await getTimeEntry(
                                 config.defaults,
-                                config.presets,
+                                presetsWithPresetOverrides,
                                 {
                                     ...(typeof groupValuePreset === 'string' 
                                         ? {preset: groupValuePreset} 
-                                        : groupValuePreset
+                                        : {}
                                     ),
+                                    ...(config.rememberLastDate && !!lastEndDate ? {start: lastEndDate} : {}),
                                 },
                             );
+
+                            lastEndDate = value.end;
 
                             entries = [
                                 ...entries,

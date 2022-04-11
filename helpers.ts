@@ -8,7 +8,7 @@ export const createSummary = (timeEntries: TimeEntry[], presets: {[key: string]:
     let totalEndBillable = new Date(0);
  
     const tableData = [
-        ['ID', 'Billable', 'Preset', 'Start', 'Pause', 'End', 'Duration'],
+        ['ID', 'Billable', 'Preset', 'Start', 'Pause', 'End', 'Worked hours'],
         ...timeEntries.map((timeEntry, index) => {
             const duration = getDuration(timeEntry.start, timeEntry.end, timeEntry.pausedDuration);
             const billable = presets?.[timeEntry.preset]?.billable;

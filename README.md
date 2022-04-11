@@ -37,7 +37,7 @@ You can configure defaults on 3 levels in the config:
 Defaults are:
 - preset: the identifier of the preset
 - startOffset: the offset in minutes from now of the start time
-- pauseDuration: the pause duration in minutes
+- pausedDuration: the pause duration in minutes
 - endOffset: the offset in minutes from now of the end time
 
 ### Summary
