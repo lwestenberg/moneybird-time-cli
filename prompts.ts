@@ -33,7 +33,8 @@ export const getTimeEntry = async (defaults: Defaults, presets: {[key: string]: 
     while (!verified) { 
         const preset = await selectFromList(Object.keys(presets), 'preset', timeEntry?.preset || defaults?.preset);
         const presetValue = Object.entries(presets).find(([key, _]) => key === preset)?.[1];
-        const startTime = `${format(new Date(), 'dd-MM-yyyy')} ${presetValue?.defaults?.startTime || defaults?.startTime}`;
+        const presetStartTime = presetValue?.defaults?.startTime || defaults?.startTime;
+        const startTime = presetStartTime ? `${format(new Date(), 'dd-MM-yyyy')} ${presetStartTime}` : undefined;
 
         const start = await enterDateTime('start', timeEntry?.start || getFormmattedDateTime(presetValue?.defaults?.startOffset || defaults?.startOffset, startTime));
         const pausedDuration =  await enterPausedDuration(timeEntry?.pausedDuration || presetValue?.defaults?.pausedDuration || defaults?.pausedDuration || 0);

@@ -35,14 +35,12 @@ const main = async () => {
                     const groupConfigValue = Object.entries(config.presetGroups).find(([key, _]) => key === group)?.[1];
                     if (groupConfigValue) {
                         for await (const groupValuePreset of groupConfigValue) {
-                            console.log('gvp', groupValuePreset);
                             const presetsWithPresetOverrides = {
                                 ...config.presets,
                                 ...(typeof groupValuePreset !== 'string' && groupValuePreset.preset ? {
                                     [groupValuePreset.preset]: {...config.presets[groupValuePreset.preset], defaults: groupValuePreset}
                                 } : {}),
                             };
-                            console.log('pre', presetsWithPresetOverrides);
                             const value = await getTimeEntry(
                                 config.defaults,
                                 presetsWithPresetOverrides,
